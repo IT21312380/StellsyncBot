@@ -821,6 +821,6 @@ You have received a new message from the StellSync website contact form:
         return jsonify({'status': 'error', 'message': 'Failed to process request'}), 500
 
 if __name__ == "__main__":
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    app.run(debug=True, host='0.0.0.0', port=8080)
 
 #comment
