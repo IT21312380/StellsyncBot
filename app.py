@@ -16,7 +16,7 @@ from email.mime.multipart import MIMEMultipart
 SMTP_SERVER = 'smtp.privateemail.com'
 SMTP_PORT = 465
 SMTP_USERNAME = 'info@stellsync.com'
-SMTP_PASSWORD = 'StellSync@2025'  # Updated to use the correct app password
+SMTP_PASSWORD = 'StellSync@2025'  # Update if needed
 
 # Download required NLTK data
 try:
@@ -33,7 +33,7 @@ CORS(app)
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
-# FAQ data (91 entries, updated contact responses)
+# FAQ data (91 entries, updated services and projects entries)
 faq_data = [
     # Greetings
     {
@@ -129,10 +129,10 @@ faq_data = [
     },
     # Contact
     {
-        "question": "contact|how to reach you|how to contact|contact details|contact information",
+        "question": "contact|how to reach you|how to contact|contact details|contact information|stellsync contact|contact stellsync|stellsync solutions contact",
         "answer": "Reach us at info@stellsync.com or call +94 71 460 0333.",
         "category": "contact",
-        "keywords": ["contact", "reach", "details", "information"]
+        "keywords": ["contact", "reach", "details", "information", "stellsync", "how to contact"]
     },
     {
         "question": "email address|email",
@@ -161,10 +161,10 @@ faq_data = [
     },
     # Services
     {
-        "question": "services|what do you offer|what services|stellsync services|services stellsync",
+        "question": "services|what do you offer|what services|stellsync services|services stellsync|what stellsync provided|what stellsync solution provided|what stellsync solutions provided",
         "answer": "We offer custom software development, AI/ML solutions, data science and analytics, mobile app development, cloud solutions, IoT, big data processing, DevOps, database administration, and system integration.",
         "category": "services",
-        "keywords": ["services", "offer", "stellsync"]
+        "keywords": ["services", "offer", "stellsync", "provided"]
     },
     {
         "question": "software development|custom software|app development",
@@ -282,7 +282,7 @@ faq_data = [
     },
     # Projects and Solutions
     {
-        "question": "projects|solutions|case studies|work samples|featured work",
+        "question": "projects|case studies|work samples|featured work",
         "answer": (
             "We have delivered impactful solutions:\n"
             "- Dockerized Machine Learning Data Server: Python server streaming Iris dataset via TCP, containerized with Docker.\n"
@@ -304,7 +304,7 @@ faq_data = [
             "Let me know if you’d like details about any of these."
         ),
         "category": "projects",
-        "keywords": ["projects", "portfolio", "case studies", "solutions"]
+        "keywords": ["projects", "portfolio", "case studies"]
     },
     {
         "question": "client feedback|testimonials|reviews",
@@ -681,6 +681,8 @@ spell = SpellChecker()
 def preprocess_text(text):
     text = text.lower().strip()
     text = re.sub(r"[^\w\s]", "", text)
+    # Normalize "stellsync solutions" and "stellsync solution" to "stellsync"
+    text = re.sub(r"\bstellsync\s+solutions?\b", "stellsync", text)
     tokens = text.split()
     corrected = [spell.correction(word) for word in tokens]
     safe_corrected = [c if c is not None else w for c, w in zip(corrected, tokens)]
@@ -730,14 +732,19 @@ def chat():
         for item in faq_data:
             patterns = item["question"].split('|')
             for pattern in patterns:
-                # Use token_sort_ratio for whole-phrase matching
                 similarity = fuzz.token_sort_ratio(pattern.strip(), user_message.lower())
-                # Boost score if keywords match
+                # Boost score for keywords
                 keyword_score = 0
                 for keyword in item["keywords"]:
                     if keyword.lower() in user_message.lower():
-                        keyword_score += 20  # Boost for keyword match
+                        keyword_score += 30 if "contact" in keyword.lower() else 20
                 total_score = similarity + keyword_score
+                # Penalize non-contact categories if "contact" is in the query
+                if "contact" in user_message.lower() and item["category"] != "contact":
+                    total_score *= 0.7
+                # Boost services category if "what" and "provided" are in the query
+                if "what" in user_message.lower() and "provided" in user_message.lower() and item["category"] == "services":
+                    total_score += 20
                 if total_score > best_score:
                     best_score = total_score
                     best_item = item
@@ -750,7 +757,7 @@ def chat():
         similarities = cosine_similarity(user_vector, question_vectors).flatten()
         max_index = np.argmax(similarities)
         max_score = similarities[max_index]
-        threshold = 0.3  # Lowered threshold for broader matching
+        threshold = 0.3
 
         if max_score >= threshold:
             response = faq_data[max_index]["answer"]
@@ -814,6 +821,6 @@ You have received a new message from the StellSync website contact form:
         return jsonify({'status': 'error', 'message': 'Failed to process request'}), 500
 
 if __name__ == "__main__":
-    app.run(debug=True, host='0.0.0.0', port=8080)
+    app.run(debug=True, host='0.0.0.0', port=5000)
 
 #comment
