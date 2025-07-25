@@ -148,14 +148,14 @@ faq_data = [
     },
     {
         "question": "visit office|can i visit",
-        "answer": "Yes, visit us at No. 123, Tech Street, Colombo 05, Sri Lanka. Please schedule an appointment via info@stellsync.com or call +94 71 460 0333.",
+        "answer": "Currently we havent fixed physical location. Please schedule an appointment via info@stellsync.com or call +94 71 460 0333.",
         "category": "contact",
         "keywords": ["visit", "office"]
     },
     # Social Media
     {
         "question": "social media|social links|facebook|linkedin|github|tiktok|whatsapp|instagram",
-        "answer": "Connect with us on social media:\n- LinkedIn: https://www.linkedin.com/in/stellsync-solution/\n- Facebook: https://www.facebook.com/profile.php?id=61578301712677\n- GitHub: https://github.com/StellSync\n- TikTok: https://www.tiktok.com/@stellsyncsolution\n- WhatsApp: https://whatsapp.com/channel/0029VbBnMlZHbFV7VIkmOm10\n- Instagram: https://www.instagram.com/stellsync",
+        "answer": "Connect with us on social media:\n- LinkedIn: https://www.linkedin.com/in/stellsync-solution//\n- Facebook: https://www.facebook.com/share/1ZdLp9rR2S/\n-  TikTok: https://www.tiktok.com/@stellsyncsolution\n- WhatsApp: https://whatsapp.com/channel/0029VbBnMlZHbFV7VIkmOm10 \n- Instagram: https://www.instagram.com/stellsync?igsh=MTNuYTJwc2ZmNmgxMg==",
         "category": "contact",
         "keywords": ["social", "facebook", "linkedin", "github", "tiktok", "whatsapp", "instagram"]
     },
@@ -552,7 +552,7 @@ faq_data = [
             "1️⃣ Finalize your project details and agreement with our development team.\n"
             "2️⃣ We will issue an invoice with the payment amount and bank details.\n"
             "3️⃣ Make your advance or milestone payment via bank transfer, credit/debit card, or online gateway.\n"
-            "4️⃣ Send the payment slip or confirmation to billing@stellsync.com or WhatsApp it to +94 71 460 0333.\n"
+            "4️⃣ Send the payment slip or confirmation to info@stellsync.com or WhatsApp it to +94 71 460 0333.\n"
             "5️⃣ We will confirm receipt and proceed with development.\n\n"
             "If you have any questions, feel free to contact our billing team!"
         ),
@@ -589,7 +589,7 @@ faq_data = [
     {
         "question": "receipt|payment confirmation|proof of payment",
         "answer": (
-            "After each payment, we issue a receipt and confirmation. If you need another copy, email billing@stellsync.com."
+            "After each payment, we issue a receipt and confirmation. If you need another copy, email info@stellsync.com."
         ),
         "category": "billing",
         "keywords": ["receipt", "confirmation"]
